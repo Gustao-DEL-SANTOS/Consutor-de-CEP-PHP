@@ -19,48 +19,44 @@
     
     <?php
 
-    function buscarCep($u){
-                // Fazendo a conexão - iniciando
-                $ch =  curl_init();
-        
-                // Indicando qual a URL para se conectar
-                curl_setopt($ch, CURLOPT_URL, $u);
-        
-                // Retorna no formato de string-lista
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $dadosRetorno = curl_exec($ch);
-                
-                // Visualisar dados no formato Json
-                //var_dump($dadosR);
-        
-                // Trabalhando com o retorno dos dados ---- Transformando em uma matriz
-                $dados = json_decode($dadosRetorno, true);
-        
-                echo "<div class=retorno>".
-                        "CEP: "         .$dados["cep"].         "<br/>".
-                        "LOGRADOURO: "  .$dados["logradouro"].  "<br/>".
-                        "COMPLEMENTO: " .$dados["complemento"]. "<br/>".
-                        "BAIRRO: "      .$dados["bairro"].      "<br/>".
-                        "LOCALIDADE: "  .$dados["localidade"].  "<br/>".
-                        "UF: "          .$dados["uf"].          "<br/>".
-                        "IBGE: "        .$dados["ibge"].        "<br/>".
-                        "GIA: "         .$dados["gia"].         "<br/>".
-                        "DDD: "         .$dados["ddd"].         "<br/>".
-                        "SIAFI: "       .$dados["siafi"].       "<br/>".
-                     "</div>";
-        
-                // Fechando a conexão para evitar problemas
-                curl_close($ch); 
-    }
+        if(isset($cep) && ($cep =="") || (strlen($cep) != 8) ){
+            echo "<div class=retorno>
+                  <h3>Dados incorretos tente novamente </h3>
+                  </div>";
+        }else{
+            buscarCep($url);
+        }
 
-    if(isset($cep) && $cep ==""){
-        echo "<div class=retorno> <h3> Nenhum valor foi inserido! </h3> </div>";
-    }else{
-
-        buscarCep($url);
-
-    }
-       
+        function buscarCep($u){
+                    // Fazendo a conexão - iniciando
+                    $ch =  curl_init();        
+                    // Indicando qual a URL para se conectar
+                    curl_setopt($ch, CURLOPT_URL, $u);        
+                    // Retorna no formato de string-lista/ Json
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $dadosRetorno = curl_exec($ch);                
+                    // Visualisar dados no formato Json
+                    //var_dump($dadosR);
+            
+                    // Trabalhando com o retorno dos dados ---- Transformando em uma matriz
+                    $dados = json_decode($dadosRetorno, true);
+            
+                    echo "<div class=retorno>".
+                            "CEP: "         .$dados["cep"].         "<br/>".
+                            "LOGRADOURO: "  .$dados["logradouro"].  "<br/>".
+                            "COMPLEMENTO: " .$dados["complemento"]. "<br/>".
+                            "BAIRRO: "      .$dados["bairro"].      "<br/>".
+                            "LOCALIDADE: "  .$dados["localidade"].  "<br/>".
+                            "UF: "          .$dados["uf"].          "<br/>".
+                            "IBGE: "        .$dados["ibge"].        "<br/>".
+                            "GIA: "         .$dados["gia"].         "<br/>".
+                            "DDD: "         .$dados["ddd"].         "<br/>".
+                            "SIAFI: "       .$dados["siafi"].       "<br/>".
+                        "</div>";
+            
+                    // Fechando a conexão para evitar problemas
+                    curl_close($ch); 
+        }       
 
     ?>
     <a href="index.html">Nova consulta</a>
